@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useGameStore } from '../store/gameStore';
 import socket from '../sockets/clientSocket';
 import Hand from './Hand';
-import Card from './Card';
+import AnimatedCard from './AnimatedCard';
 import Controls from './Controls';
 import DeckControls from './DeckControls';
 import DeckView from './DeckView';
@@ -29,7 +29,9 @@ export default function Board() {
         <div style={{ flex:1 }}>
           <h3>{opp.name} — ❤️ {opp.life}</h3>
           <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-            {(opp.battlefield || []).map(c => <Card key={c.id} card={c} />)}
+            {(opp.battlefield || []).map(c => (
+              <AnimatedCard key={c.id} card={c} small={true} isTapped={c.tapped} />
+            ))}
           </div>
           <div style={{ marginTop:12, opacity:0.85 }}>
             Cartas en mano: {opp.handCount || 0}
@@ -41,13 +43,32 @@ export default function Board() {
           <div style={{ display:'flex', justifyContent:'center', gap:12 }}>
             <div>
               <h4>Comandante</h4>
-              {me.commanderZone.map(c => <Card key={c.id} card={c} />)}
+              {me.commanderZone.map(c => (
+                <AnimatedCard
+                  key={c.id}
+                  card={c}
+                  onClick={() => {/* Handle commander click */}}
+                  style={{
+                    border: '2px solid gold',
+                    boxShadow: '0 0 20px rgba(255,215,0,0.3)'
+                  }}
+                />
+              ))}
             </div>
           </div>
 
           <div style={{ marginTop: 18 }}>
             <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
-              {(me.battlefield || []).map(c => <Card key={c.id} card={c} />)}
+              {(me.battlefield || []).map(c => (
+                <AnimatedCard
+                  key={c.id}
+                  card={c}
+                  onClick={() => {/* Handle battlefield card click */}}
+                  isTapped={c.tapped}
+                  isAttacking={c.isAttacking}
+                  showPowerToughness={true}
+                />
+              ))}
             </div>
           </div>
 
@@ -61,7 +82,9 @@ export default function Board() {
           <h3>{me.name} — ❤️ {me.life}</h3>
           <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
             {/* mostramos mano reducida aquí */}
-            {(me.battlefield || []).slice(0,6).map(c => <Card key={c.id} card={c} />)}
+            {(me.battlefield || []).slice(0,6).map(c => (
+              <AnimatedCard key={c.id} card={c} small={true} isTapped={c.tapped} />
+            ))}
           </div>
 
           <Hand player={me} />
