@@ -92,15 +92,7 @@ class Game {
   }
 
   // Initialize rules engine
-  constructor(id, io) {
-    this.id = id;
-    this.io = io;
-    this.players = [];
-    this.activePlayerIndex = 0;
-    this.phase = 'begin';
-    this.turn = 1;
-    this.stack = [];
-    this.bot = new AdvancedBot(this);
+  initializeRulesEngine() {
     this.rulesEngine = new RulesEngine(this);
   }
 
