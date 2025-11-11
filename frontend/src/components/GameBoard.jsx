@@ -372,7 +372,7 @@ export default function GameBoard() {
               layout
             >
               <AnimatePresence>
-                {me.commanderZone.map((card, index) => (
+                {me.commandZone.map((card, index) => (
                   <motion.div
                     key={`commander-${card.id}`}
                     layout
